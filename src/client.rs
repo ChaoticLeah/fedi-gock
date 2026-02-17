@@ -1,7 +1,6 @@
 use anyhow::{Context, Result};
 use futures::stream::StreamExt;
-use rand::seq::SliceRandom;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 
 #[derive(Debug, Serialize)]
@@ -96,11 +95,10 @@ impl ClientInteractor for Client {
 
                         if !event_data_lines.is_empty() {
                             let complete_data = event_data_lines.join("\n");
-                            if let Ok(event) = serde_json::from_str::<serde_json::Value>(&complete_data) {
-                                if tx.send(event).await.is_err() {
+                            if let Ok(event) = serde_json::from_str::<serde_json::Value>(&complete_data)
+                                && tx.send(event).await.is_err() {
                                     return; // listener dropped
                                 }
-                            }
                         }
                     }
                 }

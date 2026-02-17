@@ -1,7 +1,6 @@
 use anyhow::{Context, Result};
-use futures::stream::StreamExt;
 use rand::seq::SliceRandom;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 mod client;
 
